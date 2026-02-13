@@ -22,6 +22,7 @@
       --radius2:16px;
       --max:1040px;
       --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --glow: 0 0 40px rgba(255,255,255,.08);
     }
 
     *{ box-sizing:border-box; }
@@ -29,8 +30,8 @@
     body{
       margin:0;
       background:
-        radial-gradient(1200px 600px at 25% 10%, rgba(255,255,255,.05), transparent 60%),
-        radial-gradient(900px 450px at 80% 25%, rgba(255,255,255,.035), transparent 55%),
+        radial-gradient(1200px 600px at 25% 10%, rgba(255,255,255,.08), transparent 60%),
+        radial-gradient(900px 450px at 80% 25%, rgba(255,255,255,.06), transparent 55%),
         var(--bg);
       color:var(--fg);
       font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
@@ -49,6 +50,7 @@
       justify-content:space-between;
       gap:16px;
       margin-bottom:48px;
+      animation: fadeInDown 0.6s ease-out;
     }
 
     .brand{
@@ -114,11 +116,20 @@
       font-size:14px;
       cursor:pointer;
       white-space:nowrap;
+      transition: all 0.3s ease;
+    }
+    .btn:hover{
+      background: #222529;
+      box-shadow: 0 0 20px rgba(255,255,255,.1);
     }
     .btn.primary{
       background:#ffffff;
       color:#000;
       border-color:#fff;
+    }
+    .btn.primary:hover{
+      background: #f0f0f0;
+      box-shadow: 0 0 30px rgba(255,255,255,.15);
     }
 
     /* Layout */
@@ -128,6 +139,7 @@
       gap:20px;
       align-items:stretch;
       margin-bottom:56px;
+      animation: fadeInUp 0.6s ease-out 0.1s both;
     }
     @media (max-width: 920px){
       .grid{ grid-template-columns: 1fr; }
@@ -135,11 +147,12 @@
     }
 
     .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border:1px solid var(--line);
+      background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.15);
       border-radius: var(--radius);
       padding:28px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow), var(--glow);
+      backdrop-filter: blur(10px);
     }
 
     .hero h2{
@@ -199,11 +212,23 @@
     }
 
     .tile{
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border:1px solid var(--line);
+      background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.12);
       border-radius: var(--radius2);
       padding:20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.2), 0 0 24px rgba(255,255,255,.04);
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.6s ease-out both;
     }
+    .tile:nth-child(2){ animation-delay: 0.15s; }
+    .tile:nth-child(3){ animation-delay: 0.2s; }
+
+    .tile:hover{
+      border-color: rgba(255,255,255,.2);
+      box-shadow: 0 12px 40px rgba(0,0,0,.3), 0 0 32px rgba(255,255,255,.06);
+      transform: translateY(-2px);
+    }
+
     .tile h3{
       margin:0 0 10px;
       font-size:13px;
@@ -212,6 +237,83 @@
       color:var(--muted2);
     }
     .tile p{ margin:0; color:var(--muted); font-size:13.5px; line-height:1.6; }
+
+    /* Carousel */
+    .carousel-container{
+      position: relative;
+      margin-bottom: 56px;
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+    }
+
+    .carousel{
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 0;
+      margin: 0;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,.1) transparent;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .carousel::-webkit-scrollbar{
+      height: 6px;
+    }
+    .carousel::-webkit-scrollbar-track{
+      background: transparent;
+    }
+    .carousel::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.1);
+      border-radius: 3px;
+    }
+    .carousel::-webkit-scrollbar-thumb:hover{
+      background: rgba(255,255,255,.2);
+    }
+
+    .carousel-item{
+      flex: 0 0 calc(50% - 8px);
+      min-width: 300px;
+      background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius2);
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.2), 0 0 24px rgba(255,255,255,.04);
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.6s ease-out both;
+    }
+    .carousel-item:nth-child(2){ animation-delay: 0.15s; }
+    .carousel-item:nth-child(3){ animation-delay: 0.2s; }
+
+    .carousel-item:hover{
+      border-color: rgba(255,255,255,.2);
+      box-shadow: 0 12px 40px rgba(0,0,0,.3), 0 0 32px rgba(255,255,255,.06);
+      transform: translateY(-4px);
+    }
+
+    .carousel-item h3{
+      margin:0 0 12px;
+      font-size:15px;
+      letter-spacing:.05em;
+      text-transform: capitalize;
+      color:var(--fg);
+    }
+
+    .carousel-item p{ 
+      margin:0 0 16px; 
+      color:var(--muted); 
+      font-size: 13.5px; 
+      line-height: 1.6; 
+    }
+
+    .carousel-item ul{
+      margin:0;
+      padding-left:18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .carousel-item li{ margin:6px 0; }
 
     .split{
       display:grid;
@@ -229,6 +331,7 @@
       letter-spacing:.06em;
       text-transform:uppercase;
       color:var(--muted2);
+      animation: fadeInLeft 0.6s ease-out both;
     }
 
     ul{
@@ -257,6 +360,7 @@
       flex-wrap:wrap;
       justify-content:space-between;
       align-items:center;
+      animation: fadeInUp 0.6s ease-out 0.4s both;
     }
 
     code.inline{
@@ -266,6 +370,40 @@
       padding:3px 8px;
       border-radius:999px;
       font-size:12.5px;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
   </style>
 </head>
@@ -323,7 +461,7 @@
         </div>
         <div class="tile">
           <h3>Availability</h3>
-          <p>Remote-first. If you email context + what you’ve tried, I can respond much faster.</p>
+          <p>Remote-first. If you email context + what you've tried, I can respond much faster.</p>
         </div>
       </aside>
     </div>
@@ -333,35 +471,37 @@
     <section id="services">
       <h3 class="sectionTitle">Services</h3>
 
-      <div class="split">
-        <div class="tile">
-          <h3>Email deliverability</h3>
-          <p>Setups and repairs that keep mail landing in inboxes.</p>
-          <ul>
-            <li>SPF / DKIM / DMARC (alignment + verification)</li>
-            <li>Gmail deliverability / cPanel (Exim) troubleshooting</li>
-            <li>MX / DNS cleanup, record audits + documentation</li>
-          </ul>
-        </div>
+      <div class="carousel-container">
+        <div class="carousel">
+          <div class="carousel-item">
+            <h3>Email deliverability</h3>
+            <p>Setups and repairs that keep mail landing in inboxes.</p>
+            <ul>
+              <li>SPF / DKIM / DMARC (alignment + verification)</li>
+              <li>Gmail deliverability / cPanel (Exim) troubleshooting</li>
+              <li>MX / DNS cleanup, record audits + documentation</li>
+            </ul>
+          </div>
 
-        <div class="tile">
-          <h3>DNS & infrastructure</h3>
-          <p>Resolver issues, propagation, and “works for some users” problems.</p>
-          <ul>
-            <li>Cloudflare / Namecheap / GoDaddy DNS fixes</li>
-            <li>Low-risk rollout with before/after testing</li>
-            <li>Incident-style notes for long-term stability</li>
-          </ul>
-        </div>
+          <div class="carousel-item">
+            <h3>DNS & infrastructure</h3>
+            <p>Resolver issues, propagation, and "works for some users" problems.</p>
+            <ul>
+              <li>Cloudflare / Namecheap / GoDaddy DNS fixes</li>
+              <li>Low-risk rollout with before/after testing</li>
+              <li>Incident-style notes for long-term stability</li>
+            </ul>
+          </div>
 
-        <div class="tile">
-          <h3>Remote IT support</h3>
-          <p>Practical help without overengineering.</p>
-          <ul>
-            <li>Microsoft 365 / Teams troubleshooting</li>
-            <li>Google Workspace basics</li>
-            <li>Access, accounts, device + network sanity checks</li>
-          </ul>
+          <div class="carousel-item">
+            <h3>Remote IT support</h3>
+            <p>Practical help without overengineering.</p>
+            <ul>
+              <li>Microsoft 365 / Teams troubleshooting</li>
+              <li>Google Workspace basics</li>
+              <li>Access, accounts, device + network sanity checks</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -374,7 +514,7 @@
       <div class="split">
         <div class="tile">
           <h3>1) Clarify</h3>
-          <p>We define the goal and the failure mode (what works, what doesn’t, for whom).</p>
+          <p>We define the goal and the failure mode (what works, what doesn't, for whom).</p>
         </div>
         <div class="tile">
           <h3>2) Minimal change</h3>
