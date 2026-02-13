@@ -4,24 +4,34 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="underscore IT — practical IT support and infrastructure troubleshooting." />
+  <meta name="theme-color" content="#0b0b0c" />
   <title>underscore IT</title>
 
   <style>
     :root{
       --bg:#0b0b0c;
+      --bg2:#0f1012;
       --panel:#121316;
+      --panel2:#16181d;
       --line:rgba(255,255,255,.12);
+      --line2:rgba(255,255,255,.18);
       --fg:#f5f6f8;
       --muted:#b9bec7;
+      --muted2:#9aa1ad;
       --radius:20px;
-      --max:980px;
+      --radius2:16px;
+      --max:1040px;
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
     }
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
     body{
       margin:0;
-      background: var(--bg);
+      background:
+        radial-gradient(1200px 600px at 25% 10%, rgba(255,255,255,.05), transparent 60%),
+        radial-gradient(900px 450px at 80% 25%, rgba(255,255,255,.035), transparent 55%),
+        var(--bg);
       color:var(--fg);
       font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       line-height:1.55;
@@ -30,40 +40,41 @@
     a{ color:inherit; text-decoration:none; }
     a:hover{ text-decoration:underline; }
 
-    .wrap{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:42px 20px 56px;
-    }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:34px 20px 56px; }
 
+    /* Topbar */
     header{
       display:flex;
       align-items:center;
+      justify-content:space-between;
       gap:16px;
-      margin-bottom:56px;
+      margin-bottom:28px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width: 260px;
     }
 
     .logo{
-      width:72px;
-      height:72px;
-      border-radius:22px;
+      width:56px;
+      height:56px;
+      border-radius:18px;
       overflow:hidden;
       border:1px solid var(--line);
       background:#000;
+      box-shadow: var(--shadow);
       flex-shrink:0;
     }
 
-    .logo img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
+    .logo img{ width:100%; height:100%; object-fit:cover; display:block; }
 
     .brand h1{
       margin:0;
-      font-size:18px;
-      letter-spacing:.06em;
+      font-size:15px;
+      letter-spacing:.08em;
       text-transform:lowercase;
     }
 
@@ -74,57 +85,21 @@
       color:var(--muted);
     }
 
-    main{
-      display:grid;
-      gap:32px;
-    }
-
-    .hero{
-      max-width:640px;
-    }
-
-    .hero h2{
-      font-size:40px;
-      line-height:1.1;
-      margin:0 0 14px;
-      letter-spacing:-.02em;
-    }
-
-    .hero p{
-      margin:0;
-      color:var(--muted);
-      font-size:16px;
-    }
-
-    .panel{
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:22px;
-      display:grid;
-      gap:14px;
-    }
-
-    .panel h3{
-      margin:0;
-      font-size:14px;
-      letter-spacing:.02em;
-    }
-
-    ul{
-      margin:0;
-      padding-left:18px;
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    li{ margin:6px 0; }
-
-    .contact{
+    nav{
       display:flex;
-      gap:12px;
+      gap:10px;
       flex-wrap:wrap;
-      margin-top:10px;
+      align-items:center;
+      justify-content:flex-end;
+    }
+
+    .pill{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      color:var(--muted);
     }
 
     .btn{
@@ -135,32 +110,160 @@
       border-radius:12px;
       border:1px solid var(--line);
       background:#181a1f;
-      font-weight:600;
+      font-weight:650;
       font-size:14px;
       cursor:pointer;
+      white-space:nowrap;
     }
-
     .btn.primary{
       background:#ffffff;
       color:#000;
       border-color:#fff;
     }
 
-    footer{
-      margin-top:64px;
-      padding-top:18px;
-      border-top:1px solid var(--line);
-      font-size:12.5px;
-      color:var(--muted);
-      display:flex;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      gap:10px;
+    /* Layout */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:14px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){
+      .grid{ grid-template-columns: 1fr; }
+      header{ align-items:flex-start; }
     }
 
-    @media (max-width:600px){
-      .hero h2{ font-size:32px; }
-      header{ margin-bottom:40px; }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero h2{
+      margin:0 0 10px;
+      font-size:44px;
+      line-height:1.08;
+      letter-spacing:-.02em;
+    }
+    @media (max-width: 520px){
+      .hero h2{ font-size:36px; }
+    }
+
+    .hero p{
+      margin:0 0 16px;
+      color:var(--muted);
+      font-size:16px;
+      max-width: 62ch;
+    }
+
+    .kicker{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin:0 0 12px;
+      color:var(--muted2);
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    .underscore{
+      width:22px;
+      height:2px;
+      background: var(--fg);
+      opacity:.85;
+      border-radius:999px;
+    }
+
+    .ctaRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top: 6px;
+    }
+
+    .mini{
+      margin-top:14px;
+      color:var(--muted2);
+      font-size:12.5px;
+    }
+
+    /* Side panel */
+    .side{
+      display:grid;
+      gap:12px;
+      height:100%;
+    }
+
+    .tile{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      padding:16px;
+    }
+    .tile h3{
+      margin:0 0 8px;
+      font-size:13px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:var(--muted2);
+    }
+    .tile p{ margin:0; color:var(--muted); font-size:13.5px; }
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:12px;
+      margin-top:14px;
+    }
+    @media (max-width: 980px){
+      .split{ grid-template-columns: 1fr; }
+    }
+
+    .sectionTitle{
+      margin:0 0 10px;
+      font-size:14px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:var(--muted2);
+    }
+
+    ul{
+      margin:10px 0 0;
+      padding-left:18px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+    li{ margin:6px 0; }
+
+    .hr{
+      margin:18px 0;
+      border:0;
+      border-top:1px solid var(--line);
+    }
+
+    footer{
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted2);
+      font-size: 12.5px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    code.inline{
+      color:var(--fg);
+      background: rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:12.5px;
     }
   </style>
 </head>
@@ -169,38 +272,136 @@
   <div class="wrap">
 
     <header>
-      <div class="logo">
-        <img src="assets/logo.png">
-      </div>
       <div class="brand">
-        <h1>underscore IT</h1>
-        <small>Practical IT • Calm troubleshooting • Documentation-first</small>
+        <div class="logo">
+          <img src="assets/logo.png" alt="underscore IT logo">
+        </div>
+        <div>
+          <h1>underscore IT</h1>
+          <small>Practical IT • Calm troubleshooting • Documentation-first</small>
+        </div>
       </div>
+
+      <nav aria-label="Primary">
+        <a class="pill" href="#services">Services</a>
+        <a class="pill" href="#process">How I work</a>
+        <a class="pill" href="#contact">Contact</a>
+        <a class="btn" href="https://github.com/underscore-it/technical-notes" target="_blank" rel="noreferrer">Technical notes</a>
+      </nav>
     </header>
 
-    <main>
-      <section class="hero">
-        <h2>Practical IT support,<br>without the noise.</h2>
+    <div class="grid">
+      <section class="card hero">
+        <p class="kicker"><span class="underscore"></span> Infrastructure that just works</p>
+        <h2>Fix the boring stuff.<br/>So you can focus.</h2>
         <p>
           I help individuals and small teams resolve email, DNS and infrastructure issues
-          using low-risk fixes and clear documentation.
+          using low-risk changes and clear verification steps.
         </p>
 
-        <div class="contact">
+        <div class="ctaRow">
           <a class="btn primary" href="mailto:contact@underscoreit.io">contact@underscoreit.io</a>
-          <a class="btn" href="https://github.com/underscore-it/technical-notes" target="_blank">Technical notes</a>
+          <a class="btn" href="#services">See services</a>
+          <a class="btn" href="#contact">Start a request</a>
+        </div>
+
+        <div class="mini">
+          Typical tasks: <code class="inline">SPF</code> <code class="inline">DKIM</code> <code class="inline">DMARC</code> · DNS cleanup · cPanel/WHM deliverability · Microsoft 365/Teams basics
         </div>
       </section>
 
-      <section class="panel">
-        <h3>Typical work</h3>
-        <ul>
-          <li>Email deliverability (SPF, DKIM, DMARC)</li>
-          <li>DNS troubleshooting and cleanup</li>
-          <li>Remote IT support (Microsoft 365, Teams, Google Workspace)</li>
-        </ul>
-      </section>
-    </main>
+      <aside class="side">
+        <div class="tile">
+          <h3>What you get</h3>
+          <p>Fast triage, minimal-risk fixes, and written notes so the solution stays stable.</p>
+        </div>
+        <div class="tile">
+          <h3>Good fit for</h3>
+          <p>Founders, small businesses, and anyone who needs a calm hand when systems misbehave.</p>
+        </div>
+        <div class="tile">
+          <h3>Availability</h3>
+          <p>Remote-first. If you email context + what you’ve tried, I can respond much faster.</p>
+        </div>
+      </aside>
+    </div>
+
+    <hr class="hr" />
+
+    <section id="services">
+      <h3 class="sectionTitle">Services</h3>
+
+      <div class="split">
+        <div class="tile">
+          <h3>Email deliverability</h3>
+          <p>Setups and repairs that keep mail landing in inboxes.</p>
+          <ul>
+            <li>SPF / DKIM / DMARC (alignment + verification)</li>
+            <li>Gmail deliverability / cPanel (Exim) troubleshooting</li>
+            <li>MX / DNS cleanup, record audits + documentation</li>
+          </ul>
+        </div>
+
+        <div class="tile">
+          <h3>DNS & infrastructure</h3>
+          <p>Resolver issues, propagation, and “works for some users” problems.</p>
+          <ul>
+            <li>Cloudflare / Namecheap / GoDaddy DNS fixes</li>
+            <li>Low-risk rollout with before/after testing</li>
+            <li>Incident-style notes for long-term stability</li>
+          </ul>
+        </div>
+
+        <div class="tile">
+          <h3>Remote IT support</h3>
+          <p>Practical help without overengineering.</p>
+          <ul>
+            <li>Microsoft 365 / Teams troubleshooting</li>
+            <li>Google Workspace basics</li>
+            <li>Access, accounts, device + network sanity checks</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <hr class="hr" />
+
+    <section id="process">
+      <h3 class="sectionTitle">How I work</h3>
+
+      <div class="split">
+        <div class="tile">
+          <h3>1) Clarify</h3>
+          <p>We define the goal and the failure mode (what works, what doesn’t, for whom).</p>
+        </div>
+        <div class="tile">
+          <h3>2) Minimal change</h3>
+          <p>I apply the smallest safe fix first, and verify each step before moving on.</p>
+        </div>
+        <div class="tile">
+          <h3>3) Document</h3>
+          <p>You get a short summary of what changed and how to validate it later.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="hr" />
+
+    <section id="contact" class="card">
+      <p class="kicker"><span class="underscore"></span> Contact</p>
+      <p style="margin:0 0 12px; color:var(--muted);">
+        Email is the fastest way to reach me. Include: (1) what you need, (2) what you tried, and (3) any error message/screenshots.
+      </p>
+
+      <div class="ctaRow">
+        <a class="btn primary" href="mailto:contact@underscoreit.io?subject=underscore%20IT%20request&body=Goal%3A%0AContext%3A%0AWhat%20I%27ve%20tried%3A%0AErrors%2FScreenshots%3A%0A">
+          Email: contact@underscoreit.io
+        </a>
+        <a class="btn" href="https://github.com/underscore-it/technical-notes" target="_blank" rel="noreferrer">
+          View notes
+        </a>
+      </div>
+    </section>
 
     <footer>
       <div>© <span id="year"></span> underscore IT</div>
