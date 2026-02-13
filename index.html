@@ -263,7 +263,7 @@
       gap: 16px;
       padding: 0;
       margin: 0;
-      animation: autoScroll 25s linear infinite;
+      animation: autoScroll 30s linear infinite;
       animation-play-state: running;
     }
 
@@ -271,23 +271,10 @@
       animation-play-state: paused;
     }
 
-    .carousel::-webkit-scrollbar{
-      height: 6px;
-    }
-    .carousel::-webkit-scrollbar-track{
-      background: transparent;
-    }
-    .carousel::-webkit-scrollbar-thumb{
-      background: rgba(255,255,255,.1);
-      border-radius: 3px;
-    }
-    .carousel::-webkit-scrollbar-thumb:hover{
-      background: rgba(255,255,255,.2);
-    }
-
     .carousel-item{
       flex: 0 0 280px;
       min-width: 280px;
+      height: 320px;
       background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
       border:1px solid rgba(255,255,255,.12);
       border-radius: var(--radius2);
@@ -295,6 +282,8 @@
       box-shadow: 0 8px 32px rgba(0,0,0,.2), 0 0 24px rgba(255,255,255,.04);
       transition: all 0.3s ease;
       animation: fadeInUp 0.6s ease-out both;
+      display: flex;
+      flex-direction: column;
     }
     .carousel-item:nth-child(2){ animation-delay: 0.15s; }
     .carousel-item:nth-child(3){ animation-delay: 0.2s; }
@@ -326,6 +315,7 @@
       color: var(--muted);
       font-size: 13px;
       line-height: 1.7;
+      flex-grow: 1;
     }
     .carousel-item li{ margin:6px 0; }
 
@@ -424,7 +414,7 @@
 
     @keyframes autoScroll {
       0% { transform: translateX(0); }
-      100% { transform: translateX(-600px); }
+      100% { transform: translateX(calc(-280px * 3 - 16px * 3)); }
     }
   </style>
 </head>
@@ -495,6 +485,37 @@
       <div class="carousel-container">
         <div class="carousel-track">
           <div class="carousel">
+            <div class="carousel-item">
+              <h3>Email deliverability</h3>
+              <p>Setups and repairs that keep mail landing in inboxes.</p>
+              <ul>
+                <li>SPF / DKIM / DMARC (alignment + verification)</li>
+                <li>Gmail deliverability / cPanel (Exim) troubleshooting</li>
+                <li>MX / DNS cleanup, record audits + documentation</li>
+              </ul>
+            </div>
+
+            <div class="carousel-item">
+              <h3>DNS & infrastructure</h3>
+              <p>Resolver issues, propagation, and "works for some users" problems.</p>
+              <ul>
+                <li>Cloudflare / Namecheap / GoDaddy DNS fixes</li>
+                <li>Low-risk rollout with before/after testing</li>
+                <li>Incident-style notes for long-term stability</li>
+              </ul>
+            </div>
+
+            <div class="carousel-item">
+              <h3>Remote IT support</h3>
+              <p>Practical help without overengineering.</p>
+              <ul>
+                <li>Microsoft 365 / Teams troubleshooting</li>
+                <li>Google Workspace basics</li>
+                <li>Access, accounts, device + network sanity checks</li>
+              </ul>
+            </div>
+
+            <!-- Duplicates for infinite loop -->
             <div class="carousel-item">
               <h3>Email deliverability</h3>
               <p>Setups and repairs that keep mail landing in inboxes.</p>
