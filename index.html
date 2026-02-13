@@ -414,14 +414,20 @@
 
     @keyframes autoScroll {
       0% { transform: translateX(0); }
-      100% { transform: translateX(calc(-280px * 3 - 16px * 3)); }
+      100% { transform: translateX(calc(-280px * 7 - 16px * 7)); } /* this value must change with the amount of cards */
     }
     @media (max-width: 640px){
       .carousel-item{ flex: 0 0 240px; }
       .card{ padding: 20px; }
       header{ flex-direction: column; gap: 20px; }
       nav{ justify-content: flex-start; }
-    }
+
+    @keyframes autoScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc((-240px - 16px) * 7)); }
+  }
+}
+
   </style>
 </head>
 
@@ -525,9 +531,9 @@
               <h3>Web hosting & servers</h3>
               <p>Keeping sites online, fast and predictable.</p>
               <ul>
-                <li>Linux hosting (Apache / Nginx / PHP / permissions</li>
+                <li>Linux hosting (Apache / Nginx / PHP / permissions)</li>
                 <li>cPanel / ISPConfig / Plesk troubleshooting</li>
-                <li>Resource / uptime / errorlog analysis</li>
+                <li>Resource / uptime / error-log analysis</li>
               </ul>
             </div>
 
