@@ -253,23 +253,31 @@
     .carousel-track{
       display: flex;
       gap: 16px;
-      overflow-x: auto;
+      /* normally the track is scrollable, but hide the scrollbar and prevent
+         dragging past the last card (otherwise you see a big empty area). */
+      overflow-x: hidden;
       scroll-behavior: smooth;
       padding: 0;
       margin: 0 0 12px 0;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255,255,255,.1) transparent;
+      /* hide scrollbar in all browsers */
+      scrollbar-width: none;          /* Firefox */
+      -ms-overflow-style: none;       /* IE/Edge */
       -webkit-overflow-scrolling: touch;
     }
+    .carousel-track::-webkit-scrollbar { display: none; }
 
-    .carousel{
+    /* ensure the inner carousel only takes up as much width as its items */
+    .carousel {
       display: flex;
       gap: 16px;
+      width: max-content;
       padding: 0;
       margin: 0;
       animation: autoScroll 30s linear infinite;
       animation-play-state: running;
     }
+
+    /* replaced above when fixing track rules */
 
     .carousel:hover{
       animation-play-state: paused;
@@ -472,7 +480,12 @@
         </div>
 
         <div class="mini">
-          Typical tasks: SPF, DKIM, DMARC, DNS cleanup, Microsoft 365.
+          Typical tasks:
+          <code class="inline">SPF</code>
+          <code class="inline">DKIM</code>
+          <code class="inline">DMARC</code>
+          <code class="inline">DNS cleanup</code>
+          <code class="inline">Microsoft 365</code>
         </div>
       </section>
 
