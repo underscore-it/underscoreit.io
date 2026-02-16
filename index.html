@@ -223,8 +223,6 @@
       box-shadow: 0 8px 32px rgba(0,0,0,.2), 0 0 24px rgba(255,255,255,.04);
       transition: all 0.3s ease;
       animation: fadeInUp 0.6s ease-out both;
-      position: relative;
-      overflow: hidden;
     }
     .tile:nth-child(2){ animation-delay: 0.15s; }
     .tile:nth-child(3){ animation-delay: 0.2s; }
@@ -243,17 +241,6 @@
       color:var(--muted2);
     }
     .tile p{ margin:0; color:var(--muted); font-size:13.5px; line-height:1.6; }
-    .tile .more {
-      margin-top:12px;
-      font-size:13px;
-      color:var(--fg);
-      max-height:0;
-      overflow:hidden;
-      transition: max-height 0.3s ease;
-    }
-    .tile:hover .more {
-      max-height: 200px;
-    }
 
     /* Carousel */
     .carousel-container{
@@ -505,23 +492,14 @@
         <div class="tile">
           <h3>What you get</h3>
           <p>Fast triage, minimal-risk fixes, and written notes so the solution stays stable.</p>
-          <div class="more">
-            <p>Every job comes with a before/after checklist and a short report you can archive for later reference. I keep communication concise and stick to the agreed scope.</p>
-          </div>
         </div>
         <div class="tile">
           <h3>Good fit for</h3>
           <p>Founders, small businesses, and anyone who needs a calm hand when systems misbehave.</p>
-          <div class="more">
-            <p>Whether you run a one‑person shop or a small team, I'll work with whatever level of technical detail you're comfortable with.</p>
-          </div>
         </div>
         <div class="tile">
           <h3>Availability</h3>
           <p>Remote-first. If you email context + what you've tried, I can respond much faster.</p>
-          <div class="more">
-            <p>Typical response within a few hours during weekdays. Emergencies get priority; non‑urgent requests may take a day or two.</p>
-          </div>
         </div>
       </aside>
     </div>
@@ -601,45 +579,6 @@
                 <li>Bash / PowerShell scripts</li>
                 <li>Backup and maintenance automation</li>
                 <li>Tools to solve repetitive tasks</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- consolidated overview paragraph moved from side tiles -->
-      <p style="margin-bottom:56px; color:var(--muted); max-width: 72ch;">
-        Fast triage, minimal‑risk fixes and written notes keep systems stable.   
-        I work with founders and small teams who need a calm, documentation‑first
-        approach, and respond quickest when you email context along with what you've tried.
-      </p>
-            <!-- Duplicates for infinite loop -->
-            <div class="carousel-item">
-              <h3>Email deliverability</h3>
-              <p>Setups and repairs that keep mail landing in inboxes.</p>
-              <ul>
-                <li>SPF / DKIM / DMARC (alignment + verification)</li>
-                <li>Gmail deliverability / cPanel (Exim) troubleshooting</li>
-                <li>MX / DNS cleanup, record audits + documentation</li>
-              </ul>
-            </div>
-
-            <div class="carousel-item">
-              <h3>DNS & infrastructure</h3>
-              <p>Resolver issues, propagation, and "works for some users" problems.</p>
-              <ul>
-                <li>Cloudflare / Namecheap / GoDaddy DNS fixes</li>
-                <li>Low-risk rollout with before/after testing</li>
-                <li>Incident-style notes for long-term stability</li>
-              </ul>
-            </div>
-
-            <div class="carousel-item">
-              <h3>Remote IT support</h3>
-              <p>Practical help without overengineering.</p>
-              <ul>
-                <li>Microsoft 365 / Teams troubleshooting</li>
-                <li>Google Workspace basics</li>
-                <li>Access, accounts, device + network sanity checks</li>
               </ul>
             </div>
           </div>
