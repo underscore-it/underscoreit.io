@@ -33,6 +33,10 @@
         radial-gradient(1200px 600px at 25% 10%, rgba(255,255,255,.08), transparent 60%),
         radial-gradient(900px 450px at 80% 25%, rgba(255,255,255,.06), transparent 55%),
         var(--bg);
+      /* new rules */
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
       color:var(--fg);
       font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       line-height:1.6;
@@ -138,7 +142,7 @@
       grid-template-columns: 1.25fr .75fr;
       gap:20px;
       align-items:stretch;
-      margin-bottom:56px;
+      margin-bottom:80px; /* more space below hero to reduce visual clutter */
       animation: fadeInUp 0.6s ease-out 0.1s both;
     }
     @media (max-width: 920px){
@@ -458,8 +462,7 @@
         <p class="kicker"><span class="underscore"></span> Infrastructure that just works</p>
         <h2>Fix the boring stuff.<br/>So you can focus.</h2>
         <p>
-          I help individuals and small teams resolve email, DNS and infrastructure issues
-          using low-risk changes and clear verification steps.
+          I help individuals and small teams resolve email, DNS and infrastructure issues.
         </p>
 
         <div class="ctaRow">
@@ -469,7 +472,7 @@
         </div>
 
         <div class="mini">
-          Typical tasks: <code class="inline">SPF</code> <code class="inline">DKIM</code> <code class="inline">DMARC</code> <code class="inline">DNS cleanup</code> <code class="inline">cPanel/WHM</code> <code class="inline">Microsoft 365</code>
+          Typical tasks: SPF, DKIM, DMARC, DNS cleanup, Microsoft 365.
         </div>
       </section>
 
