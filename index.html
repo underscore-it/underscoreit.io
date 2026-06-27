@@ -1,665 +1,852 @@
 <!doctype html>
-<html lang="da">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="underscore IT — practical IT support and infrastructure troubleshooting." />
-  <meta name="theme-color" content="#1a1a1e" />
-  <title>underscore IT</title>
+  <meta name="description" content="underscore IT helps small teams fix email deliverability, DNS, Microsoft 365, hosting, servers and practical infrastructure issues with calm troubleshooting and clear documentation." />
+  <meta name="theme-color" content="#f7f3ff" />
+  <meta property="og:title" content="underscore IT — practical IT troubleshooting" />
+  <meta property="og:description" content="Calm, documentation-first IT help for email, DNS, Microsoft 365, hosting and infrastructure issues." />
+  <meta property="og:type" content="website" />
+  <title>underscore IT — practical IT troubleshooting</title>
 
   <style>
     :root{
-      --bg:#1a1a1e;
-      --bg2:#0f1012;
-      --panel:#121316;
-      --panel2:#16181d;
-      --line:rgba(255,255,255,.12);
-      --line2:rgba(255,255,255,.18);
-      --fg:#f5f6f8;
-      --muted:#b9bec7;
-      --muted2:#9aa1ad;
-      --radius:20px;
-      --radius2:16px;
-      --max:1040px;
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
-      --glow: 0 0 40px rgba(255,255,255,.08);
+      color-scheme: light;
+      --bg: #f7f8fc;
+      --surface: rgba(255,255,255,.82);
+      --surface-solid: #ffffff;
+      --ink: #15141f;
+      --muted: #5f6572;
+      --soft: #8b92a2;
+      --line: rgba(25, 23, 38, .12);
+      --line-strong: rgba(25, 23, 38, .2);
+      --accent: #6e2ea6;
+      --accent-strong: #53207d;
+      --accent-soft: #eee3fb;
+      --accent-soft-2: #f7f0ff;
+      --green: #237a58;
+      --green-soft: #e8f7f0;
+      --warning: #8a5b00;
+      --warning-soft: #fff5dc;
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --max: 1160px;
+      --shadow-sm: 0 10px 30px rgba(35, 32, 54, .08);
+      --shadow-md: 0 22px 70px rgba(35, 32, 54, .13);
+      --focus: 0 0 0 4px rgba(110, 46, 166, .18);
     }
 
     *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+    html{ scroll-behavior:smooth; }
     body{
       margin:0;
+      color:var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height:1.55;
       background:
-        radial-gradient(1200px 600px at 25% 10%, rgba(255,255,255,.08), transparent 60%),
-        radial-gradient(900px 450px at 80% 25%, rgba(255,255,255,.06), transparent 55%),
-        var(--bg);
-      /* new rules */
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-size: cover;
-      color:var(--fg);
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      line-height:1.6;
+        radial-gradient(900px 520px at 8% -10%, rgba(110,46,166,.18), transparent 60%),
+        radial-gradient(720px 520px at 95% 5%, rgba(70,112,255,.14), transparent 58%),
+        linear-gradient(180deg, #fbfaff 0%, var(--bg) 42%, #ffffff 100%);
+      min-height:100vh;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
     }
 
+    ::selection{ background:rgba(110,46,166,.18); }
     a{ color:inherit; text-decoration:none; }
-    a:hover{ text-decoration:underline; }
+    a:hover{ color:var(--accent); }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{ outline:none; box-shadow:var(--focus); }
 
-    .wrap{ max-width:var(--max); margin:0 auto; padding:40px 20px 72px; }
+    .skip-link{
+      position:absolute;
+      left:16px;
+      top:12px;
+      transform:translateY(-160%);
+      background:var(--ink);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      z-index:20;
+      transition:transform .2s ease;
+    }
+    .skip-link:focus{ transform:translateY(0); }
 
-    /* Topbar */
-    header{
+    .wrap{ width:min(var(--max), calc(100% - 40px)); margin:0 auto; }
+
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:10;
+      backdrop-filter: blur(18px);
+      background:rgba(247,248,252,.72);
+      border-bottom:1px solid rgba(25,23,38,.08);
+    }
+    .nav{
+      min-height:78px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:16px;
-      margin-bottom:48px;
-      animation: fadeInDown 0.6s ease-out;
+      gap:24px;
     }
-
     .brand{
       display:flex;
       align-items:center;
-      gap:14px;
-      min-width: 260px;
+      gap:12px;
+      min-width:max-content;
     }
-
-    .logo{
-      width:56px;
-      height:56px;
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid var(--line);
-      background:#000;
-      box-shadow: var(--shadow);
-      flex-shrink:0;
+    .mark{
+      width:46px;
+      height:46px;
+      display:grid;
+      place-items:center;
+      border-radius:15px;
+      background:linear-gradient(135deg, #15141f 0%, #322445 100%);
+      color:#fff;
+      font-weight:850;
+      letter-spacing:-.08em;
+      box-shadow:0 14px 34px rgba(34,22,46,.22);
     }
-
-    .logo img{ width:100%; height:100%; object-fit:cover; display:block; }
-    
-    .brand h1{
-      margin:0;
-      font-size:15px;
-      letter-spacing:.08em;
-      text-transform:lowercase;
-    }
-
-    .brand small{
-      display:block;
-      margin-top:6px;
-      font-size:13px;
-      color:var(--muted);
-    }
-
-    nav{
+    .brand-title{ display:block; font-weight:850; letter-spacing:-.03em; line-height:1; }
+    .brand-subtitle{ display:block; margin-top:5px; color:var(--muted); font-size:13px; }
+    .nav-links{
       display:flex;
-      gap:10px;
-      flex-wrap:wrap;
       align-items:center;
       justify-content:flex-end;
+      flex-wrap:wrap;
+      gap:8px;
     }
-
-    .pill{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      padding:8px 12px;
-      border-radius:999px;
-      font-size:13px;
+    .nav-links a{
       color:var(--muted);
+      font-size:14px;
+      font-weight:700;
+      padding:9px 11px;
+      border-radius:999px;
     }
+    .nav-links a:hover{ background:rgba(110,46,166,.08); color:var(--accent-strong); }
 
     .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding:10px 14px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background:#181a1f;
-      font-weight:650;
-      font-size:14px;
+      gap:9px;
+      border:1px solid var(--line-strong);
+      background:var(--surface-solid);
+      color:var(--ink);
+      border-radius:999px;
+      min-height:46px;
+      padding:0 18px;
+      font-weight:800;
+      box-shadow:var(--shadow-sm);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
       cursor:pointer;
       white-space:nowrap;
-      transition: all 0.3s ease;
     }
-    .btn:hover{
-      background: #222529;
-      box-shadow: 0 0 20px rgba(255,255,255,.1);
-    }
-    .btn.primary{
-      background:#ffffff;
-      color:#000;
-      border-color:#fff;
-    }
-    .btn.primary:hover{
-      background: #f0f0f0;
-      box-shadow: 0 0 30px rgba(255,255,255,.15);
-    }
+    .btn:hover{ transform:translateY(-2px); color:var(--ink); border-color:rgba(110,46,166,.35); box-shadow:var(--shadow-md); }
+    .btn.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
+    .btn.primary:hover{ background:var(--accent-strong); border-color:var(--accent-strong); color:#fff; }
+    .btn.ghost{ background:rgba(255,255,255,.58); box-shadow:none; }
 
-    /* Layout */
-    .grid{
+    main{ overflow:hidden; }
+    .hero{
       display:grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap:20px;
-      align-items:stretch;
-      margin-bottom:80px; /* more space below hero to reduce visual clutter */
-      animation: fadeInUp 0.6s ease-out 0.1s both;
-    }
-    @media (max-width: 920px){
-      .grid{ grid-template-columns: 1fr; }
-      header{ align-items:flex-start; }
-    }
-
-    .card{
-      background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.15);
-      border-radius: var(--radius);
-      padding:28px;
-      box-shadow: var(--shadow), var(--glow);
-      backdrop-filter: blur(10px);
-    }
-
-    .hero h2{
-      margin:0 0 16px;
-      font-size:44px;
-      line-height:1.1;
-      letter-spacing:-.02em;
-    }
-    @media (max-width: 520px){
-      .hero h2{ font-size:36px; }
-    }
-
-    .hero p{
-      margin:0 0 24px;
-      color:var(--muted);
-      font-size:16px;
-      max-width: 62ch;
-    }
-
-    .kicker{
-      display:flex;
+      grid-template-columns:minmax(0, 1.08fr) minmax(320px, .92fr);
+      gap:34px;
       align-items:center;
-      gap:10px;
-      margin:0 0 16px;
-      color:var(--muted2);
-      font-size:12px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
+      padding:74px 0 48px;
     }
-    .underscore{
-      width:22px;
-      height:2px;
-      background: var(--fg);
-      opacity:.85;
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      margin:0 0 18px;
+      padding:7px 12px;
+      border:1px solid rgba(110,46,166,.16);
+      border-radius:999px;
+      background:rgba(255,255,255,.66);
+      color:var(--accent-strong);
+      font-size:13px;
+      font-weight:850;
+      box-shadow:var(--shadow-sm);
+    }
+    .eyebrow::before{
+      content:"";
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 0 5px rgba(35,122,88,.12);
+    }
+    h1, h2, h3, p{ margin-top:0; }
+    h1{
+      margin-bottom:22px;
+      font-size:clamp(44px, 7vw, 78px);
+      line-height:.95;
+      letter-spacing:-.075em;
+      max-width:11ch;
+    }
+    .hero-copy{
+      max-width:67ch;
+      color:var(--muted);
+      font-size:clamp(18px, 2vw, 21px);
+      margin-bottom:28px;
+    }
+    .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:24px; }
+    .micro-proof{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .micro-proof span{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      padding:8px 11px;
+      border:1px solid rgba(25,23,38,.09);
+      background:rgba(255,255,255,.6);
       border-radius:999px;
     }
-
-    .ctaRow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin-top: 12px;
+    .micro-proof span::before{
+      content:"✓";
+      color:var(--green);
+      font-weight:900;
     }
 
-    .mini{
-      margin-top:20px;
-      color:var(--muted2);
-      font-size:12.5px;
-    }
-
-    /* Side panel */
-    .side{
-      display:grid;
-      gap:14px;
-      height:100%;
-    }
-
-    .tile{
-      background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid rgba(255,255,255,.12);
-      border-radius: var(--radius2);
+    .diagnostic-card{
+      position:relative;
+      border:1px solid rgba(255,255,255,.9);
+      border-radius:var(--radius-xl);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72)),
+        linear-gradient(135deg, rgba(110,46,166,.12), rgba(37,99,235,.08));
+      box-shadow:var(--shadow-md);
       padding:20px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.2), 0 0 24px rgba(255,255,255,.04);
-      transition: all 0.3s ease;
-      animation: fadeInUp 0.6s ease-out both;
+      overflow:hidden;
     }
-    .tile:nth-child(2){ animation-delay: 0.15s; }
-    .tile:nth-child(3){ animation-delay: 0.2s; }
-
-    .tile:hover{
-      border-color: rgba(255,255,255,.2);
-      box-shadow: 0 12px 40px rgba(0,0,0,.3), 0 0 32px rgba(255,255,255,.06);
-      transform: translateY(-2px);
+    .diagnostic-card::before{
+      content:"";
+      position:absolute;
+      inset:-80px -90px auto auto;
+      width:210px;
+      height:210px;
+      background:radial-gradient(circle, rgba(110,46,166,.2), transparent 68%);
+      pointer-events:none;
     }
-
-    .tile h3{
-      margin:0 0 10px;
+    .window-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:18px;
+      color:var(--soft);
       font-size:13px;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      color:var(--muted2);
+      font-weight:800;
     }
-    .tile p{ margin:0; color:var(--muted); font-size:13.5px; line-height:1.6; }
-
-    /* Carousel */
-    .carousel-container{
-      position: relative;
-      margin-bottom: 56px;
-      animation: fadeInUp 0.6s ease-out 0.2s both;
-      overflow: hidden;
-    }
-
-    .carousel-track{
-      display: flex;
-      gap: 16px;
-      /* normally the track is scrollable, but hide the scrollbar and prevent
-         dragging past the last card (otherwise you see a big empty area). */
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-      padding: 0;
-      margin: 0 0 12px 0;
-      /* hide scrollbar in all browsers */
-      scrollbar-width: none;          /* Firefox */
-      -ms-overflow-style: none;       /* IE/Edge */
-      -webkit-overflow-scrolling: touch;
-    }
-    .carousel-track::-webkit-scrollbar { display: none; }
-
-    /* ensure the inner carousel only takes up as much width as its items */
-    .carousel {
-      display: flex;
-      gap: 16px;
-      width: max-content;
-      padding: 0;
-      margin: 0;
-      animation: autoScroll 30s linear infinite;
-      animation-play-state: running;
-    }
-
-    .carousel:hover{
-      animation-play-state: paused;
-    }
-
-    .carousel-item{
-      flex: 0 0 280px;
-      min-width: 280px;
-      height: 320px;
-      background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.12);
-      border-radius: var(--radius2);
-      padding: 24px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.2), 0 0 24px rgba(255,255,255,.04);
-      transition: all 0.3s ease;
-      animation: fadeInUp 0.6s ease-out both;
-      display: flex;
-      flex-direction: column;
-    }
-    .carousel-item:nth-child(2){ animation-delay: 0.15s; }
-    .carousel-item:nth-child(3){ animation-delay: 0.2s; }
-
-    .carousel-item:hover{
-      border-color: rgba(255,255,255,.2);
-      box-shadow: 0 12px 40px rgba(0,0,0,.3), 0 0 32px rgba(255,255,255,.06);
-      transform: translateY(-4px);
-    }
-
-    .carousel-item h3{
-      margin:0 0 12px;
-      font-size:15px;
-      letter-spacing:.05em;
-      text-transform: capitalize;
-      color:var(--fg);
-    }
-
-    .carousel-item p{ 
-      margin:0 0 16px; 
-      color:var(--muted); 
-      font-size: 13.5px; 
-      line-height: 1.6; 
-    }
-
-    .carousel-item ul{
-      margin:0;
-      padding-left:18px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
-      flex-grow: 1;
-    }
-    .carousel-item li{ margin:6px 0; }
-
-    .split{
+    .dots{ display:flex; gap:7px; }
+    .dots i{ width:11px; height:11px; display:block; border-radius:50%; background:#e2e5ec; }
+    .status-list{ display:grid; gap:12px; }
+    .status-item{
       display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap:16px;
-      margin-bottom:56px;
+      grid-template-columns:40px 1fr auto;
+      gap:12px;
+      align-items:center;
+      padding:14px;
+      border:1px solid rgba(25,23,38,.08);
+      border-radius:18px;
+      background:rgba(255,255,255,.72);
     }
-    @media (max-width: 980px){
-      .split{ grid-template-columns: 1fr; }
+    .status-icon{
+      width:40px;
+      height:40px;
+      display:grid;
+      place-items:center;
+      border-radius:14px;
+      background:var(--accent-soft);
+      color:var(--accent-strong);
+      font-weight:900;
     }
+    .status-item h3{ margin:0; font-size:15px; letter-spacing:-.01em; }
+    .status-item p{ margin:3px 0 0; color:var(--muted); font-size:13px; line-height:1.35; }
+    .tag{
+      justify-self:end;
+      padding:6px 9px;
+      border-radius:999px;
+      background:var(--green-soft);
+      color:var(--green);
+      font-size:12px;
+      font-weight:900;
+    }
+    .tag.warning{ background:var(--warning-soft); color:var(--warning); }
+    .diagnostic-note{
+      margin:18px 0 0;
+      padding:16px;
+      border-radius:20px;
+      background:#16141f;
+      color:#f6f1ff;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    .diagnostic-note p{ margin:0; color:#d9d1e5; font-size:14px; }
+    .diagnostic-note strong{ color:#fff; }
 
-    .sectionTitle{
-      margin:0 0 28px;
-      font-size:14px;
-      letter-spacing:.06em;
+    .section{ padding:58px 0; }
+    .section.compact{ padding-top:36px; }
+    .section-head{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:28px;
+      margin-bottom:26px;
+    }
+    .section-kicker{
+      display:block;
+      margin-bottom:8px;
+      color:var(--accent-strong);
+      font-size:13px;
+      font-weight:900;
       text-transform:uppercase;
-      color:var(--muted2);
-      animation: fadeInLeft 0.6s ease-out both;
+      letter-spacing:.12em;
     }
+    h2{
+      margin-bottom:0;
+      font-size:clamp(30px, 4vw, 46px);
+      line-height:1.03;
+      letter-spacing:-.055em;
+      max-width:13ch;
+    }
+    .section-intro{ max-width:58ch; color:var(--muted); font-size:17px; margin-bottom:0; }
 
-    ul{
-      margin:12px 0 0;
-      padding-left:18px;
-      color: var(--muted);
-      font-size: 13.5px;
-      line-height: 1.7;
+    .trust-strip{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:12px;
+      padding:14px;
+      border:1px solid rgba(25,23,38,.08);
+      border-radius:var(--radius-xl);
+      background:rgba(255,255,255,.64);
+      box-shadow:var(--shadow-sm);
     }
-    li{ margin:8px 0; }
+    .trust-item{
+      padding:18px;
+      border-radius:20px;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(25,23,38,.06);
+    }
+    .trust-item strong{ display:block; font-size:18px; letter-spacing:-.02em; }
+    .trust-item span{ display:block; color:var(--muted); font-size:13px; margin-top:4px; }
 
-    .hr{
-      margin:48px 0;
-      border:0;
-      border-top:1px solid var(--line);
+    .service-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:16px;
     }
+    .service-card{
+      min-height:100%;
+      padding:24px;
+      border:1px solid rgba(25,23,38,.1);
+      border-radius:var(--radius-lg);
+      background:var(--surface-solid);
+      box-shadow:var(--shadow-sm);
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .service-card:hover{ transform:translateY(-3px); border-color:rgba(110,46,166,.24); box-shadow:var(--shadow-md); }
+    .service-top{ display:flex; justify-content:space-between; gap:18px; align-items:start; margin-bottom:18px; }
+    .service-icon{
+      width:44px;
+      height:44px;
+      display:grid;
+      place-items:center;
+      border-radius:15px;
+      background:var(--accent-soft-2);
+      color:var(--accent-strong);
+      font-weight:950;
+    }
+    .service-number{ color:#d2c6df; font-weight:950; font-size:24px; line-height:1; }
+    .service-card h3{ margin-bottom:9px; font-size:19px; letter-spacing:-.025em; }
+    .service-card p{ color:var(--muted); margin-bottom:18px; font-size:15px; }
+    .clean-list{ list-style:none; padding:0; margin:0; display:grid; gap:9px; }
+    .clean-list li{ display:flex; gap:9px; align-items:flex-start; color:var(--muted); font-size:14px; line-height:1.4; }
+    .clean-list li::before{ content:"→"; color:var(--accent); font-weight:900; transform:translateY(-1px); }
+
+    .split-panel{
+      display:grid;
+      grid-template-columns:.9fr 1.1fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    .feature-panel{
+      padding:30px;
+      border-radius:var(--radius-xl);
+      background:#171521;
+      color:#fff;
+      box-shadow:var(--shadow-md);
+      min-height:100%;
+    }
+    .feature-panel h2{ color:#fff; max-width:12ch; }
+    .feature-panel p{ color:#d7d2df; font-size:17px; margin:18px 0 0; }
+    .steps{
+      display:grid;
+      gap:12px;
+    }
+    .step{
+      display:grid;
+      grid-template-columns:52px 1fr;
+      gap:16px;
+      align-items:start;
+      padding:20px;
+      border:1px solid rgba(25,23,38,.09);
+      border-radius:var(--radius-lg);
+      background:rgba(255,255,255,.82);
+      box-shadow:var(--shadow-sm);
+    }
+    .step-index{
+      width:52px;
+      height:52px;
+      display:grid;
+      place-items:center;
+      border-radius:18px;
+      background:var(--accent-soft);
+      color:var(--accent-strong);
+      font-weight:950;
+    }
+    .step h3{ margin:0 0 4px; font-size:18px; letter-spacing:-.02em; }
+    .step p{ margin:0; color:var(--muted); font-size:15px; }
+
+    .fit-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:16px;
+    }
+    .fit-card{
+      padding:22px;
+      border:1px solid rgba(25,23,38,.09);
+      border-radius:var(--radius-lg);
+      background:linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.7));
+      box-shadow:var(--shadow-sm);
+    }
+    .fit-card h3{ margin-bottom:8px; font-size:18px; letter-spacing:-.02em; }
+    .fit-card p{ margin:0; color:var(--muted); font-size:15px; }
+
+    .contact-card{
+      display:grid;
+      grid-template-columns:1fr .9fr;
+      gap:24px;
+      padding:34px;
+      border-radius:var(--radius-xl);
+      background:
+        radial-gradient(640px 320px at 88% 20%, rgba(110,46,166,.14), transparent 65%),
+        #fff;
+      border:1px solid rgba(25,23,38,.1);
+      box-shadow:var(--shadow-md);
+    }
+    .contact-card h2{ max-width:10ch; }
+    .contact-copy{ color:var(--muted); font-size:17px; max-width:58ch; }
+    .contact-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
+    .request-builder{
+      border:1px solid rgba(25,23,38,.1);
+      border-radius:var(--radius-lg);
+      padding:18px;
+      background:rgba(247,248,252,.72);
+    }
+    .request-builder label{ display:block; margin:0 0 8px; font-size:13px; font-weight:900; color:var(--ink); }
+    .field{ margin-bottom:12px; }
+    input, textarea{
+      width:100%;
+      border:1px solid rgba(25,23,38,.14);
+      border-radius:14px;
+      background:#fff;
+      color:var(--ink);
+      padding:12px 13px;
+      font:inherit;
+      font-size:14px;
+    }
+    textarea{ min-height:112px; resize:vertical; }
+    .form-note{ margin:10px 0 0; color:var(--soft); font-size:12px; }
 
     footer{
-      margin-top: 36px;
-      padding-top: 20px;
-      border-top: 1px solid var(--line);
-      color: var(--muted2);
-      font-size: 12.5px;
       display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      justify-content:space-between;
       align-items:center;
-      animation: fadeInUp 0.6s ease-out 0.4s both;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:14px;
+      padding:32px 0 42px;
+      color:var(--muted);
+      font-size:14px;
+      border-top:1px solid rgba(25,23,38,.09);
     }
+    footer a{ font-weight:800; }
 
-    code.inline{
-      color:var(--fg);
-      background: rgba(255,255,255,.05);
-      border:1px solid var(--line);
-      padding:3px 8px;
-      border-radius:999px;
-      font-size:12.5px;
-      display: inline-block;
-      margin: 0 2px;
+    @media (max-width: 980px){
+      .hero, .split-panel, .contact-card{ grid-template-columns:1fr; }
+      .service-grid, .fit-grid{ grid-template-columns:repeat(2, 1fr); }
+      .trust-strip{ grid-template-columns:repeat(2, 1fr); }
+      .section-head{ align-items:start; flex-direction:column; gap:12px; }
+      h2{ max-width:15ch; }
     }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @media (max-width: 720px){
+      .wrap{ width:min(100% - 28px, var(--max)); }
+      .site-header{ position:relative; }
+      .nav{ align-items:flex-start; flex-direction:column; padding:16px 0; }
+      .nav-links{ justify-content:flex-start; }
+      .hero{ padding-top:42px; }
+      .hero-actions .btn{ width:100%; }
+      .diagnostic-card, .contact-card, .feature-panel{ border-radius:24px; }
+      .service-grid, .fit-grid, .trust-strip{ grid-template-columns:1fr; }
+      .status-item{ grid-template-columns:40px 1fr; }
+      .tag{ grid-column:2; justify-self:start; }
+      footer{ align-items:flex-start; flex-direction:column; }
     }
-
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
+    @media (prefers-reduced-motion: reduce){
+      *, *::before, *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+        transition-duration:.01ms !important;
       }
     }
-
-    @keyframes autoScroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(calc(-280px * 7 - 16px * 7)); } /* this value must change with the amount of cards */
-    }
-    @media (max-width: 640px){
-      .carousel-item{ flex: 0 0 240px; }
-      .card{ padding: 20px; }
-      header{ flex-direction: column; gap: 20px; }
-      nav{ justify-content: flex-start; }
-
-    @keyframes autoScroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(calc((-240px - 16px) * 7)); }
-  }
-}
-
   </style>
 </head>
 
 <body>
-  <div class="wrap">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <header>
-      <div class="brand">
-        <div class="logo">
-          <img src="assets/logo.png" alt="underscore IT logo">
-        </div>
-        <div>
-          <h1>underscore IT</h1>
-          <small>Practical IT • Calm troubleshooting • Documentation-first</small>
-        </div>
-      </div>
+  <header class="site-header">
+    <div class="wrap nav" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="underscore IT home">
+        <span class="mark" aria-hidden="true">_it</span>
+        <span>
+          <span class="brand-title">underscore IT</span>
+          <span class="brand-subtitle">Calm troubleshooting. Clean handover.</span>
+        </span>
+      </a>
 
-      <nav aria-label="Primary">
-        <a class="pill" href="#services">Services</a>
-        <a class="pill" href="#process">How I work</a>
-        <a class="pill" href="#contact">Contact</a>
+      <nav class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#fit">Good fit</a>
+        <a href="#contact">Contact</a>
       </nav>
-    </header>
+    </div>
+  </header>
 
-    <div class="grid">
-      <section class="card hero">
-        <p class="kicker"><span class="underscore"></span> Infrastructure that just works</p>
-        <h2>Fix the boring stuff.<br/>So you can focus.</h2>
-        <p>
-          I help individuals and small teams resolve email, DNS and infrastructure issues.
+  <main id="main">
+    <section id="top" class="wrap hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Remote-first IT support for small teams</p>
+        <h1 id="hero-title">Fix the boring stuff.</h1>
+        <p class="hero-copy">
+          I help founders, freelancers and small teams untangle the IT problems that quietly drain time: email deliverability, DNS, Microsoft 365, hosting, server errors and practical infrastructure cleanup.
         </p>
 
-        <div class="ctaRow">
-          <a class="btn primary" href="mailto:contact@underscoreit.io">contact@underscoreit.io</a>
-          <a class="btn" href="#services">See services</a>
-          <a class="btn" href="#contact">Start a request</a>
+        <div class="hero-actions" aria-label="Primary actions">
+          <a class="btn primary" href="mailto:contact@underscoreit.io?subject=underscore%20IT%20request&body=Goal%3A%0AContext%3A%0AWhat%20I%27ve%20tried%3A%0AErrors%20or%20screenshots%3A%0AAccess%20I%20can%20provide%3A%0A">Start a request</a>
+          <a class="btn ghost" href="#services">Explore services</a>
         </div>
 
-        <div class="mini">
-          Typical tasks:
-          <code class="inline">SPF</code>
-          <code class="inline">DKIM</code>
-          <code class="inline">DMARC</code>
-          <code class="inline">DNS cleanup</code>
-          <code class="inline">Microsoft 365</code>
+        <div class="micro-proof" aria-label="Working principles">
+          <span>Minimal-risk changes</span>
+          <span>Verification included</span>
+          <span>Documentation-first</span>
+          <span>No enterprise theatre</span>
         </div>
-      </section>
+      </div>
 
-      <aside class="side">
-        <div class="tile">
-          <h3>What you get</h3>
-          <p>Fast triage, minimal-risk fixes, and written notes so the solution stays stable.</p>
+      <aside class="diagnostic-card" aria-label="Troubleshooting preview">
+        <div class="window-bar">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>triage runbook</span>
         </div>
-        <div class="tile">
-          <h3>Good fit for</h3>
-          <p>Founders, small businesses, and anyone who needs a calm hand when systems misbehave.</p>
+
+        <div class="status-list">
+          <article class="status-item">
+            <div class="status-icon" aria-hidden="true">01</div>
+            <div>
+              <h3>Find the failure mode</h3>
+              <p>Who is affected, what changed, and what still works?</p>
+            </div>
+            <span class="tag">clarify</span>
+          </article>
+
+          <article class="status-item">
+            <div class="status-icon" aria-hidden="true">02</div>
+            <div>
+              <h3>Change the smallest thing</h3>
+              <p>DNS, mail, access or server fixes with rollback in mind.</p>
+            </div>
+            <span class="tag warning">careful</span>
+          </article>
+
+          <article class="status-item">
+            <div class="status-icon" aria-hidden="true">03</div>
+            <div>
+              <h3>Verify and hand over</h3>
+              <p>Before/after checks and notes you can keep.</p>
+            </div>
+            <span class="tag">done</span>
+          </article>
         </div>
-        <div class="tile">
-          <h3>Availability</h3>
-          <p>Remote-first. If you email context + what you've tried, I can respond much faster.</p>
+
+        <div class="diagnostic-note">
+          <p><strong>The goal:</strong> make the problem understandable, fix it without drama, and leave you with enough context to avoid the same fire next month.</p>
         </div>
       </aside>
-    </div>
+    </section>
 
-    <hr class="hr" />
+    <section class="wrap section compact" aria-label="Service principles">
+      <div class="trust-strip">
+        <div class="trust-item">
+          <strong>Remote-first</strong>
+          <span>Built for fast async context and practical screen-share sessions.</span>
+        </div>
+        <div class="trust-item">
+          <strong>Small-team friendly</strong>
+          <span>Useful fixes without heavy MSP contracts or inflated process.</span>
+        </div>
+        <div class="trust-item">
+          <strong>Clear notes</strong>
+          <span>You get the what, why, and how-to-validate in plain language.</span>
+        </div>
+        <div class="trust-item">
+          <strong>Low-risk mindset</strong>
+          <span>Pre-checks, tiny changes, and rollback thinking before touching production.</span>
+        </div>
+      </div>
+    </section>
 
-    <section id="services">
-      <h3 class="sectionTitle">Services</h3>
+    <section id="services" class="wrap section" aria-labelledby="services-title">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">What I fix</span>
+          <h2 id="services-title">Practical help where IT gets sticky.</h2>
+        </div>
+        <p class="section-intro">
+          The page now prioritizes recognizable business pain instead of a long moving carousel. People should be able to find themselves in the problem within seconds.
+        </p>
+      </div>
 
-      <div class="carousel-container">
-        <div class="carousel-track">
-          <div class="carousel">
-            <div class="carousel-item">
-              <h3>Email deliverability</h3>
-              <p>Setups and repairs that keep mail landing in inboxes.</p>
-              <ul>
-                <li>SPF / DKIM / DMARC (alignment + verification)</li>
-                <li>Gmail deliverability / cPanel (Exim) troubleshooting</li>
-                <li>MX / DNS cleanup, record audits + documentation</li>
-              </ul>
+      <div class="service-grid">
+        <article class="service-card">
+          <div class="service-top">
+            <span class="service-icon" aria-hidden="true">@</span>
+            <span class="service-number">01</span>
+          </div>
+          <h3>Email deliverability</h3>
+          <p>When mail lands in spam, breaks after a migration, or fails authentication checks.</p>
+          <ul class="clean-list">
+            <li>SPF, DKIM and DMARC alignment</li>
+            <li>MX and DNS record audits</li>
+            <li>Gmail, cPanel and Exim troubleshooting</li>
+          </ul>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <span class="service-icon" aria-hidden="true">DNS</span>
+            <span class="service-number">02</span>
+          </div>
+          <h3>DNS & domain cleanup</h3>
+          <p>For propagation weirdness, broken records, provider moves and “works for some users” issues.</p>
+          <ul class="clean-list">
+            <li>Cloudflare, Namecheap and GoDaddy fixes</li>
+            <li>Low-risk cutovers and validation</li>
+            <li>Before/after record documentation</li>
+          </ul>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <span class="service-icon" aria-hidden="true">365</span>
+            <span class="service-number">03</span>
+          </div>
+          <h3>Microsoft 365 support</h3>
+          <p>Account, Teams, mail, access and tenant sanity checks for small organizations.</p>
+          <ul class="clean-list">
+            <li>User and access troubleshooting</li>
+            <li>Mail flow and domain checks</li>
+            <li>Practical setup guidance</li>
+          </ul>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <span class="service-icon" aria-hidden="true">srv</span>
+            <span class="service-number">04</span>
+          </div>
+          <h3>Hosting & servers</h3>
+          <p>When a website, VPS, panel or Linux service behaves badly and the error message is not enough.</p>
+          <ul class="clean-list">
+            <li>Apache, Nginx, PHP and permissions</li>
+            <li>cPanel, ISPConfig and Plesk issues</li>
+            <li>Error-log and resource analysis</li>
+          </ul>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <span class="service-icon" aria-hidden="true">ssh</span>
+            <span class="service-number">05</span>
+          </div>
+          <h3>Security basics</h3>
+          <p>Reduce obvious risk without turning your workflow into a museum of locked doors.</p>
+          <ul class="clean-list">
+            <li>Firewall and SSH hardening</li>
+            <li>TLS and certificate fixes</li>
+            <li>Reasonable checks with clear notes</li>
+          </ul>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <span class="service-icon" aria-hidden="true">ps</span>
+            <span class="service-number">06</span>
+          </div>
+          <h3>Automation & scripting</h3>
+          <p>Small Bash or PowerShell scripts that remove repetitive chores and make maintenance safer.</p>
+          <ul class="clean-list">
+            <li>Backup and maintenance helpers</li>
+            <li>Health checks and simple reporting</li>
+            <li>Repeatable admin tasks</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="process" class="wrap section" aria-labelledby="process-title">
+      <div class="split-panel">
+        <div class="feature-panel">
+          <span class="section-kicker">How I work</span>
+          <h2 id="process-title">Calm beats chaotic.</h2>
+          <p>
+            The point is not to look busy. The point is to isolate the issue, make the smallest safe change, test it, and explain the fix in a way you can actually reuse.
+          </p>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <span class="step-index">1</span>
+            <div>
+              <h3>Clarify the goal</h3>
+              <p>We define what “fixed” means, what changed recently, and who is affected.</p>
             </div>
+          </article>
 
-            <div class="carousel-item">
-              <h3>DNS & infrastructure</h3>
-              <p>Resolver issues, propagation, and "works for some users" problems.</p>
-              <ul>
-                <li>Cloudflare / Namecheap / GoDaddy DNS fixes</li>
-                <li>Low-risk rollout with before/after testing</li>
-                <li>Incident-style notes for long-term stability</li>
-              </ul>
+          <article class="step">
+            <span class="step-index">2</span>
+            <div>
+              <h3>Baseline before changing</h3>
+              <p>I check the current state first, so we are not guessing blindly in production.</p>
             </div>
+          </article>
 
-            <div class="carousel-item">
-              <h3>Remote IT support</h3>
-              <p>Practical help without overengineering.</p>
-              <ul>
-                <li>Microsoft 365 / Teams troubleshooting</li>
-                <li>Google Workspace basics</li>
-                <li>Access, accounts, device, network sanity checks</li>
-              </ul>
+          <article class="step">
+            <span class="step-index">3</span>
+            <div>
+              <h3>Apply the smallest safe fix</h3>
+              <p>One controlled change at a time, with rollback thinking when the system matters.</p>
             </div>
+          </article>
 
-            <div class="carousel-item">
-              <h3>Web hosting & servers</h3>
-              <p>Keeping sites online, fast and predictable.</p>
-              <ul>
-                <li>Linux hosting (Apache / Nginx / PHP / permissions)</li>
-                <li>cPanel / ISPConfig / Plesk troubleshooting</li>
-                <li>Resource / uptime / error-log analysis</li>
-              </ul>
+          <article class="step">
+            <span class="step-index">4</span>
+            <div>
+              <h3>Verify and document</h3>
+              <p>You get a short handover: what was wrong, what changed, and how to validate it later.</p>
             </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-            <div class="carousel-item">
-              <h3>Security & hardening</h3>
-              <p>Reduce attack surface without breaking workflows.</p>
-              <ul>
-                <li>Basic server hardening (firewalls, SSH, fail2ban)</li>
-                <li>TLS / HTTPS configuration / certificate fixes</li>
-                <li>Sensible security checks with clear documentation</li>
-              </ul>
-            </div>
-            
-            <div class="carousel-item">
-              <h3>Cloud & migrations</h3>
-              <p>Move systems across platforms.</p>
-              <ul>
-                <li>Hosting / provider migrations</li>
-                <li>DNS / mail & service cutovers</li>
-                <li>Pre-checks / rollback planning & validation</li>
-              </ul>
-            </div>
+    <section id="fit" class="wrap section" aria-labelledby="fit-title">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Good fit</span>
+          <h2 id="fit-title">For people who need IT fixed, not mystified.</h2>
+        </div>
+        <p class="section-intro">
+          This positioning keeps the page honest: no fake enterprise scale, no invented testimonials, and no vague “digital transformation” fog machine.
+        </p>
+      </div>
 
-            <div class="carousel-item">
-              <h3>Automation & scripting</h3>
-              <p>Small scripts that save real time.</p>
-              <ul>
-                <li>Bash / PowerShell scripts</li>
-                <li>Backup and maintenance automation</li>
-                <li>Tools to solve repetitive tasks</li>
-              </ul>
-            </div>
+      <div class="fit-grid">
+        <article class="fit-card">
+          <h3>Small businesses</h3>
+          <p>You have real systems, but not a full internal IT department. You need direct help and clear handover.</p>
+        </article>
+        <article class="fit-card">
+          <h3>Founders & freelancers</h3>
+          <p>You need someone who can debug the boring technical blockers while you keep the business moving.</p>
+        </article>
+        <article class="fit-card">
+          <h3>Teams mid-migration</h3>
+          <p>You are moving domains, mail, hosting or providers and want fewer surprises during the cutover.</p>
+        </article>
+      </div>
+    </section>
 
-            <!-- Duplicates for seamless infinite loop -->
-            <div class="carousel-item">
-              <h3>Email deliverability</h3>
-              <p>Setups and repairs that keep mail landing in inboxes.</p>
-              <ul>
-                <li>SPF / DKIM / DMARC (alignment + verification)</li>
-                <li>Gmail deliverability / cPanel (Exim) troubleshooting</li>
-                <li>MX / DNS cleanup, record audits + documentation</li>
-              </ul>
-            </div>
-
-            <div class="carousel-item">
-              <h3>DNS & infrastructure</h3>
-              <p>Resolver issues, propagation, and "works for some users" problems.</p>
-              <ul>
-                <li>Cloudflare / Namecheap / GoDaddy DNS fixes</li>
-                <li>Low-risk rollout with before/after testing</li>
-                <li>Incident-style notes for long-term stability</li>
-              </ul>
-            </div>
-
-            <div class="carousel-item">
-              <h3>Remote IT support</h3>
-              <p>Practical help without overengineering.</p>
-              <ul>
-                <li>Microsoft 365 / Teams troubleshooting</li>
-                <li>Google Workspace basics</li>
-                <li>Access, accounts, device, network sanity checks</li>
-              </ul>
-            </div>
+    <section id="contact" class="wrap section" aria-labelledby="contact-title">
+      <div class="contact-card">
+        <div>
+          <span class="section-kicker">Start here</span>
+          <h2 id="contact-title">Send the context. I’ll find the thread.</h2>
+          <p class="contact-copy">
+            The fastest way to get useful help is to include the goal, what is broken, what you have already tried, and any screenshots or error messages. I can move much faster when the first message contains the messy details.
+          </p>
+          <div class="contact-actions">
+            <a class="btn primary" id="mailtoFallback" href="mailto:contact@underscoreit.io?subject=underscore%20IT%20request&body=Goal%3A%0AContext%3A%0AWhat%20I%27ve%20tried%3A%0AErrors%20or%20screenshots%3A%0AAccess%20I%20can%20provide%3A%0A">Email contact@underscoreit.io</a>
+            <a class="btn ghost" href="#services">Check services again</a>
           </div>
         </div>
+
+        <form class="request-builder" id="requestBuilder">
+          <div class="field">
+            <label for="goal">Goal</label>
+            <input id="goal" name="goal" autocomplete="off" placeholder="Example: Fix email landing in spam" />
+          </div>
+          <div class="field">
+            <label for="context">Context</label>
+            <textarea id="context" name="context" placeholder="What is broken, what changed, and what have you already tried?"></textarea>
+          </div>
+          <button class="btn primary" type="submit">Open email draft</button>
+          <p class="form-note">This form does not store anything. It only opens your email client with a prepared message.</p>
+        </form>
       </div>
     </section>
+  </main>
 
-    <hr class="hr" />
-
-    <section id="process">
-      <h3 class="sectionTitle">How I work</h3>
-
-      <div class="split">
-        <div class="tile">
-          <h3>1) Clarify</h3>
-          <p>We define the goal and the failure mode (what works, what doesn't, for whom).</p>
-        </div>
-        <div class="tile">
-          <h3>2) Minimal change</h3>
-          <p>I apply the smallest safe fix first, and verify each step before moving on.</p>
-        </div>
-        <div class="tile">
-          <h3>3) Document</h3>
-          <p>You get a short summary of what changed and how to validate it later.</p>
-        </div>
-      </div>
-    </section>
-
-    <hr class="hr" />
-
-    <section id="contact" class="card">
-      <p class="kicker"><span class="underscore"></span> Contact</p>
-      <p style="margin:0 0 12px; color:var(--muted);">
-        Email is the fastest way to reach me. Include: (1) what you need, (2) what you tried, and (3) any error message/screenshots.
-      </p>
-
-      <div class="ctaRow">
-        <a class="btn primary" href="mailto:contact@underscoreit.io?subject=underscore%20IT%20request&body=Goal%3A%0AContext%3A%0AWhat%20I%27ve%20tried%3A%0AErrors%2FScreenshots%3A%0A">
-          Email: contact@underscoreit.io
-        </a>
-      </div>
-    </section>
-
-    <footer>
-      <div>© <span id="year"></span> underscore IT</div>
-      <div><a href="mailto:contact@underscoreit.io">contact@underscoreit.io</a></div>
-    </footer>
-
-  </div>
+  <footer class="wrap">
+    <span>© <span id="year"></span> underscore IT</span>
+    <span><a href="mailto:contact@underscoreit.io">contact@underscoreit.io</a></span>
+  </footer>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    const year = document.getElementById('year');
+    year.textContent = new Date().getFullYear();
+
+    const builder = document.getElementById('requestBuilder');
+    builder.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const goal = document.getElementById('goal').value.trim();
+      const context = document.getElementById('context').value.trim();
+      const subject = goal ? `underscore IT request — ${goal}` : 'underscore IT request';
+      const body = [
+        `Goal: ${goal || ''}`,
+        '',
+        'Context:',
+        context || '',
+        '',
+        "What I've tried:",
+        '',
+        'Errors or screenshots:',
+        '',
+        'Access I can provide:',
+        ''
+      ].join('\n');
+      window.location.href = `mailto:contact@underscoreit.io?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
   </script>
 </body>
 </html>
